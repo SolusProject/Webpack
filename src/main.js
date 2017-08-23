@@ -7,7 +7,7 @@ Vue.filter("story_filter", (story) => {
     return story.writer +" saidf: \""+story.plot+"\"";
 });
 var data = {
-    name : "Jack",
+    name : "Jackson",
     gender : "male",
     stories: [
         "I crashed my car today!",
