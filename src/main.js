@@ -1,5 +1,7 @@
 import Vue from 'vue';
 import bootstrap from 'bootstrap';
+import style from './main.scss';
+
 
 Vue.filter("story_filter", (story) => {
     return story.writer +" saidf: \""+story.plot+"\"";

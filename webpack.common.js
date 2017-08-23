@@ -2,8 +2,10 @@ const path = require('path');
 const webpack = require("webpack");
 const CommonsChunkPlugin = webpack.optimize.CommonsChunkPlugin;
 const LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
-module.exports = {
+var x = {
     "devtool" : "#eval",
     // tells where to look for the entry files
     "context" : path.resolve(__dirname, "src"),
@@ -22,27 +24,38 @@ module.exports = {
             {
                 "test" : /\.(js|html)$/,
                 "exclude" : /node_modules/,
-                "loader" : "babel-loader"
+                "use" : "babel-loader"
             },
             {
                 "test": /\.vue$/,
                 "exclude" : /node_modules/,
-                "loader": 'vue-loader',
-                "options" : {
-                    vue : {
-                        loaders : {
-                            js : 'babel?presets["env"]'
+                "use": {
+                    "loader" : 'vue-loader',
+                    "options" : {
+                        "vue" : {
+                            "loaders" : {
+                                "js" : 'babel?presets["env"]'
+                            }
                         }
                     }
                 }
             },
             {
                 "test": /\.(woff2?|svg)$/,
-                "loader" : 'url-loader?limit=10000'
+                "use" : 'url-loader?limit=10000'
             },
             {
                 "test": /\.(ttf|eot)$/,
-                "loader": 'file-loader'
+                "use": 'file-loader'
+            },
+            {
+                "test" : /\.(css|scss)$/,
+                "exclude" : /node_modules/,
+                "use" : ExtractTextPlugin.extract({
+                    "fallback" : "style-loader",
+                    "use" : ["css-loader", "sass-loader"],
+                    "publicPath" : path.join(__dirname, "dist")
+                })
             }
         ],
     },
@@ -70,6 +83,29 @@ module.exports = {
              _ : "lodash",
              "Vue" : "vue"
 
+        }),
+        new ExtractTextPlugin({
+            "filename" : path.join("css", "bundle.css"),
+            "disable" : false,
+            "allChunks" : true
+        }),
+        new HtmlWebpackPlugin({
+            "template" : path.join(__dirname, "index.ejs"),
+            "filename" :  path.join(__dirname, "index.html"),
+            "inject" : false,
+            "chunks": ["vendor", "main"],
+            "heads": ["vendor"],
+            "bodys" : ["main"],
+            "styles" : [path.join("dist", "css", "bundle.css")],
+            "hash" : true,
+            "minify" : {
+                collapseWhitespace : true,
+                removeComments : true
+            }
         })
     ]
 };
+
+console.log(HtmlWebpackPlugin.files);
+
+module.exports = x;
