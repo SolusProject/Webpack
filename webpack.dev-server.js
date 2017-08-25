@@ -3,9 +3,14 @@ const Merge = require('webpack-merge');
 const CommonConfig = require('./webpack.common.js');
 const path = require('path');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const bootstrapEntryPoints = require('./webpack.bootstrap.config.js');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = Merge(CommonConfig, {
     "devtool" : "#eval",
+    "entry" : {
+        "bootstrap" : bootstrapEntryPoints.dev
+    },
     "module"  : {
         "rules" : [
             {

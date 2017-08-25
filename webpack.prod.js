@@ -4,9 +4,14 @@ const CommonConfig = require('./webpack.common.js');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const webpack = require("webpack");
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const bootstrapEntryPoints = require('./webpack.bootstrap.config.js');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = Merge(CommonConfig, {
     "devtool" : "#source-map",
+    "entry" : {
+        "bootstrap" : bootstrapEntryPoints.prod
+    },
     "module"  : {
         "rules" : [
             {
@@ -15,12 +20,11 @@ module.exports = Merge(CommonConfig, {
                 "use" : ExtractTextPlugin.extract({
                     "fallback" : "style-loader",
                     "use" : ["css-loader", "sass-loader"],
-                    "publicPath" : path.join(__dirname, "dist")
+                    //"publicPath" : path.join(__dirname, "dist")
                 })
             }
         ]
     },
-
     "plugins" : [
         new CleanWebpackPlugin([CommonConfig.output.path]),
         new webpack.DefinePlugin({'process.env': {'NODE_ENV': JSON.stringify('production')}}),
@@ -37,9 +41,9 @@ module.exports = Merge(CommonConfig, {
              "comments": false
          }),
          new ExtractTextPlugin({
-             "filename" : path.join("css", "bundle.css"),
+             "filename" : path.join("bundle.css"),
              "disable" : false,
              "allChunks" : true
-         }),
+         })
     ]
 });

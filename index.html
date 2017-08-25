@@ -1,1 +1,160 @@
-<html><head><title>Hello Vue</title><script src="/dist/vendor.bundle.js?13a5e3c0d8f0815f3bae"></script><link rel="icon" href="data:;base64,iVBORw0KGgo="><link rel="stylesheet" href="dist/css/bundle.css"></head><body><div class="xxx">More content</div><div id="app" class="container"><br><hr><h2>Lets visit some planet</h2><ul class="list-group"><planet :planet="planet" :key="key" v-for="(planet,key) in planets"></planet></ul><hr><ul class="list-group"><story :story="story" :key="key" :favorite="favorite" v-for="(story, key) in stories_object"></story></ul><hr><div v-if="gender == 'male' || gender == 'female'"><h1>Helloss {{gender == 'male'? 'Mister' : 'Miss'}} {{name}}</h1></div><div v-else><h1>So you cant decide with your gender. Fine!</h1></div><div class="form-group"><label for="gender">Enter your gender:</label><input id="gender" type="text" class="form-control" v-model="gender"></div><div class="form-group"><label for="name">Enter your name:</label><input id="name" type="text" class="form-control" v-model="name"></div><li v-for="(prop, key, index) in person_object" class="list-group-item">{{index}} : {{key}} : {{prop}}</li><hr><button @click="_upvote">{{upvote}}</button><hr><form class="form-inline"><input v-model.number="calculator.a" class="form-control" type="number"><select v-model="calculator.operator" class="form-control"><option>*</option><option>/</option><option>+</option><option>-</option></select><input v-model.number="calculator.b" class="form-control" type="number"> <button @click.prevent="_calculate" class="btn btn-primary">Calculate</button></form><h2>Result: {{calculator.result}}</h2><hr><form class="form-inline" :="trigger"><input v-model.number="calculator.a" class="form-control" type="number"><select v-model="calculator.operator" class="form-control"><option>*</option><option>/</option><option>+</option><option>-</option></select><input v-model.number="calculator.b" class="form-control" type="number"></form><hr><h2>Our Major is gonna be {{candidates[0].name}}</h2><form class="form-group" @click.prevent><li v-for="(value, index, key) in _.orderBy(candidates, 'votes', sortBy)" class="list-group-item">{{value.name}} {{value.votes}} <button type="button" name="button" @click="increment_vote(value)">Vote</button></li></form><button type="button" name="button" class="btn btn-primary" @click="reset_candidates">Reset Votes</button> <button type="button" name="button" class="btn btn-primary" @click="changeOrder">Change Order</button><h2>Lets hear some stories</h2><li v-for="story in filter_story_by('John')" class="list-group-item">{{story.plot}}</li><hr><h2>Lets see some popular stories ({{popular_story.length}})</h2><li v-for="story in popular_story" class="list-group-item">{{story.writer}} said: "{{story.plot}}" ({{story.upvote}})</li><hr><label for="story_search">Story Search</label><input id="story_search" type="text" v-model="query" class="form-control"><br><ul class="list-group"><li v-for="story in queried_story" class="list-group-item">{{story | story_filter}}</li></ul><br><pre>{{$data}}</pre></div><script src="/dist/main.bundle.js?13a5e3c0d8f0815f3bae"></script></body></html>
+<html>
+
+    <head>
+        <!-- if you dont add '/' in front our app will flip at you -->
+        <title>Hello Vue</title>
+        <script src="/dist/vendor.bundle.js?0d4181824b496e793e55"></script>
+    
+        <script src="/dist/bootstrap.bundle.js?0d4181824b496e793e55"></script>
+    
+        <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+        <link rel="stylesheet" href="dist/bundle.css">
+        <!-- <img src="dist/9443424a251a57235a400289875d475f.png" alt=""> -->
+
+        <!-- <link href="dist/css/bundle.css" rel="stylesheet"> -->
+
+        <!-- <link rel="stylesheet" href="[prepend_your_public_path/]{%=o.webpack.assetsByChunkName.client[1]%}"> -->
+    </head>
+
+    <body>
+
+        <div class="xxx">
+            More content
+        </div>
+
+        <div id="app" class="container">
+            <br>
+            <hr>
+            <h2>Lets visit some planet</h2>
+            <ul class="list-group">
+                <planet :planet="planet"
+                        :key="key"
+                        v-for="(planet,key) in planets"></planet>
+            </ul>
+
+            <hr>
+            <ul class="list-group">
+                <story :story="story"
+                       :key="key"
+                       :favorite="favorite"
+                       v-for="(story, key) in stories_object"></story>
+            </ul>
+
+            <hr>
+            <!-- v-if v-else v-elseif v-show v-model-->
+            <div v-if="gender == 'male' || gender == 'female'">
+                <h1>Helloss {{gender == 'male'? 'Mister' : 'Miss'}} {{name}}</h1>
+            </div>
+            <div v-else>
+                <h1>So you cant decide with your gender. Fine!</h1>
+            </div>
+
+            <div class="form-group">
+                <label for="gender">Enter your gender:</label>
+                <input id="gender" type="text" class="form-control" v-model="gender">
+            </div>
+
+            <div class="form-group">
+                <label for="name">Enter your name:</label>
+                <input id="name" type="text" class="form-control" v-model="name">
+            </div>
+
+            <!-- v-for -->
+
+            <!-- <li v-for="i in 11" class="list-group-item">
+                {{i-1}} times 4 equals {{ (i-1) * 4}}
+            </li> -->
+
+            <!-- <li v-for="story in stories" class="list-group-item">
+                {{story}}
+            </li> -->
+
+            <!-- <li v-for="(story, index) in stories_object" class="list-group-item">
+                {{index}} {{story.writer}} said {{story.plot}}
+            </li> -->
+
+            <li v-for="(prop, key, index) in person_object" class="list-group-item">
+                {{index}} : {{key}} : {{prop}}
+            </li>
+
+            <!-- Events -->
+            <hr>
+            <button @click="_upvote">{{upvote}}</button>
+            <hr>
+
+            <form class="form-inline">
+                <input v-model.number="calculator.a" class="form-control" type="number">
+                <select v-model="calculator.operator" class="form-control">
+                    <option>*</option>
+                    <option>/</option>
+                    <option>+</option>
+                    <option>-</option>
+                </select>
+                <input v-model.number="calculator.b" class="form-control" type="number">
+                <button @click.prevent="_calculate" class="btn btn-primary">Calculate</button>
+            </form>
+
+            <h2>Result: {{calculator.result}}</h2>
+            <hr>
+            <!-- calculator 2 -->
+             <!-- @click.prevent="_calculate" -->
+            <form class="form-inline" :="trigger">
+                <input v-model.number="calculator.a" class="form-control" type="number">
+                <select v-model="calculator.operator" class="form-control">
+                    <option>*</option>
+                    <option>/</option>
+                    <option>+</option>
+                    <option>-</option>
+                </select>
+                <input v-model.number="calculator.b" class="form-control" type="number">
+            </form>
+            <!-- {{trigger}} -->
+            <!-- this shit is weird as fuck -->
+            <!-- <h2>Result: {{calculator_result}}</h2> -->
+            <hr>
+            <!-- this is wrong figure it out -->
+            <h2>Our Major is gonna be {{candidates[0].name}}</h2>
+            <form class="form-group" @click.prevent >
+                <li v-for="(value, index, key) in _.orderBy(candidates, 'votes', sortBy)"
+                    class="list-group-item">
+                    {{value.name}} {{value.votes}}
+                    <button type="button" name="button" @click="increment_vote(value)">Vote</button>
+                </li>
+            </form>
+            <button type="button" name="button" class="btn btn-primary" @click="reset_candidates">Reset Votes</button>
+            <button type="button" name="button" class="btn btn-primary" @click="changeOrder">Change Order</button>
+            <!-- Filters -->
+            <h2>Lets hear some stories</h2>
+            <li v-for="story in filter_story_by('John')"
+                class="list-group-item">
+                {{story.plot}}
+            </li>
+            <hr>
+
+            <h2>Lets see some popular stories ({{popular_story.length}})</h2>
+
+            <li v-for="story in popular_story"
+                class="list-group-item"
+            >
+                {{story.writer}} said: "{{story.plot}}" ({{story.upvote}})
+            </li>
+
+            <hr>
+            <label for="story_search">Story Search</label>
+            <input id="story_search"
+                   type="text"
+                   v-model="query"
+                   class="form-control">
+            <br>
+            <ul class="list-group">
+                <li v-for="story in queried_story"
+                    class="list-group-item"
+                >{{story | story_filter}}</li>
+            </ul>
+            <br>
+            <pre>{{$data}}</pre>
+
+        </div>
+        <script src="/dist/main.bundle.js?0d4181824b496e793e55"></script>
+    </body>
+</html>
