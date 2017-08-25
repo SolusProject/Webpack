@@ -16,7 +16,29 @@
     </head>
 
     <body>
+        <div class="xxx">
+            More content
+        </div>
+
         <div id="app" class="container">
+            <br>
+            <hr>
+            <h2>Lets visit some planet</h2>
+            <ul class="list-group">
+                <planet :planet="planet"
+                        :key="key"
+                        v-for="(planet,key) in planets"></planet>
+            </ul>
+
+            <hr>
+            <ul class="list-group">
+                <story :story="story"
+                       :key="key"
+                       :favorite="favorite"
+                       v-for="(story, key) in stories_object"></story>
+            </ul>
+
+            <hr>
             <!-- v-if v-else v-elseif v-show v-model-->
             <div v-if="gender == 'male' || gender == 'female'">
                 <h1>Helloss {{gender == 'male'? 'Mister' : 'Miss'}} {{name}}</h1>
@@ -127,10 +149,6 @@
                     class="list-group-item"
                 >{{story | story_filter}}</li>
             </ul>
-
-            <hr>
-
-            <hr>
             <br>
             <pre>{{$data}}</pre>
 

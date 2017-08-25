@@ -1,11 +1,17 @@
 import Vue from 'vue';
 import bootstrap from 'bootstrap';
-import style from './main.scss';
+import style from './CSS/main.scss';
+import story from "./template/story.vue";
+import planet from "./template/planet.vue";
 
 
-Vue.filter("story_filter", (story) => {
-    return story.writer +" saidf: \""+story.plot+"\"";
+
+Vue.filter("story_filter", function() {
+    return story.writer +" said: \""+story.plot+"\"";
 });
+
+
+
 var data = {
     name : "Jackson",
     gender : "male",
@@ -36,6 +42,7 @@ var data = {
             upvote : 21
         },
     ],
+    favorite : {},
     person_object : {
         name : "Sasha",
         weight : "170",
@@ -57,7 +64,13 @@ var data = {
         {"name" : "Roach", "votes" : 130},
     ],
     query : "",
-    sortBy : "desc"
+    sortBy : "desc",
+    planets : [
+        {"name" : "Venus", "visits" : 2},
+        {"name" : "Mars", "visits" : 0},
+        {"name" : "Jupiter", "visits" : 0},
+        {"name" : "Moon", "visits" : 0}
+    ]
 };
 
 var math = {
@@ -109,6 +122,10 @@ new Vue({
             return data.stories_object.filter((story) =>
                 {return story.plot.includes(data.query);});
         }
+    },
+    components : {
+        story,
+        planet,
     }
 
 });

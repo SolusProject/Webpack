@@ -3,7 +3,7 @@ const webpack = require("webpack");
 const CommonsChunkPlugin = webpack.optimize.CommonsChunkPlugin;
 const LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+
 
 var x = {
     "devtool" : "#eval",
@@ -41,21 +41,12 @@ var x = {
                 }
             },
             {
-                "test": /\.(woff2?|svg)$/,
-                "use" : 'url-loader?limit=10000'
+                "test": /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+                "use" : 'url-loader?limit=10000&mimetype=application/font-woff'
             },
             {
-                "test": /\.(ttf|eot)$/,
+                "test": /\.(ttf|eot|svg|png)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
                 "use": 'file-loader'
-            },
-            {
-                "test" : /\.(css|scss)$/,
-                "exclude" : /node_modules/,
-                "use" : ExtractTextPlugin.extract({
-                    "fallback" : "style-loader",
-                    "use" : ["css-loader", "sass-loader"],
-                    "publicPath" : path.join(__dirname, "dist")
-                })
             }
         ],
     },
@@ -84,14 +75,9 @@ var x = {
              "Vue" : "vue"
 
         }),
-        new ExtractTextPlugin({
-            "filename" : path.join("css", "bundle.css"),
-            "disable" : false,
-            "allChunks" : true
-        }),
         new HtmlWebpackPlugin({
             "template" : path.join(__dirname, "index.ejs"),
-            "filename" :  path.join(__dirname, "index.html"),
+            "filename" : path.join(__dirname, "index.html"),
             "inject" : false,
             "chunks": ["vendor", "main"],
             "heads": ["vendor"],
@@ -102,6 +88,22 @@ var x = {
                 collapseWhitespace : true,
                 removeComments : true
             }
+            // excludeChunks
+        }),
+        // devserver html file
+        new HtmlWebpackPlugin({
+            "template" : path.join(__dirname, "index.ejs"),
+            "filename" : path.join(__dirname, "dist", "index.html"),
+            "chunks": ["vendor", "main"],
+            "heads": ["vendor"],
+            "bodys" : ["main"],
+            "styles" : [path.join("dist", "css", "bundle.css")],
+            "hash" : true,
+            "minify" : {
+                collapseWhitespace : true,
+                removeComments : true
+            }
+            // excludeChunks
         })
     ]
 };
