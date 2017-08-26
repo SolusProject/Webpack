@@ -44,6 +44,21 @@ module.exports = Merge(CommonConfig, {
              "filename" : path.join("bundle.css"),
              "disable" : false,
              "allChunks" : true
-         })
+         }),
+         new HtmlWebpackPlugin({
+             "template" : path.join(__dirname, "index.ejs"),
+             "filename" : path.join(__dirname, "index.html"),
+             "inject" : false,
+             "chunks": ["main", "vendor", "bootstrap"],
+             "heads": ["vendor", "bootstrap"],
+             "bodys" : ["main"],
+             "styles" : [path.join("dist", "css", "main.css")],
+             "hash" : true,
+             // "minify" : {
+             //     collapseWhitespace : true,
+             //     removeComments : true
+             // }
+             // excludeChunks
+         }),
     ]
 });

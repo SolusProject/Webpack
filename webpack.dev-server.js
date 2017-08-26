@@ -31,6 +31,22 @@ module.exports = Merge(CommonConfig, {
     "plugins"  : [
         new webpack.DefinePlugin({'process.env': {'NODE_ENV': JSON.stringify('dev')}}),
         new webpack.HotModuleReplacementPlugin(),
-        new webpack.NamedModulesPlugin()
+        new webpack.NamedModulesPlugin(),
+        // devserver html file
+        new HtmlWebpackPlugin({
+            "template" : path.join(__dirname, "index.ejs"),
+            "filename" : path.join(__dirname, "dist", "index.html"),
+            "chunks": ["main", "vendor", "bootstrap"],
+            "heads": ["vendor", "bootstrap"],
+            "bodys" : ["main"],
+            "inject" : false,
+            //"styles" : [path.join("css", "bundle.css")],
+            "hash" : true,
+            // "minify" : {
+            //     collapseWhitespace : true,
+            //     removeComments : true
+            // }
+            // excludeChunks
+        })
     ]
 });

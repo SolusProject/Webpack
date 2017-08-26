@@ -1,5 +1,4 @@
 import Vue from 'vue';
-//import bootstrap from 'bootstrap';
 import style from './CSS/main.scss';
 import story from "./template/story.vue";
 import planet from "./template/planet.vue";
@@ -9,8 +8,6 @@ import planet from "./template/planet.vue";
 Vue.filter("story_filter", function() {
     return story.writer +" said: \""+story.plot+"\"";
 });
-
-
 
 var data = {
     name : "Jackson",

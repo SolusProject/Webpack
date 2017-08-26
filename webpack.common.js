@@ -2,22 +2,15 @@ const path = require('path');
 const webpack = require("webpack");
 const CommonsChunkPlugin = webpack.optimize.CommonsChunkPlugin;
 const LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-
 
 
 var x = {
     "devtool" : "#eval",
-    // tells where to look for the entry files
     "context" : path.resolve(__dirname, "src"),
-    // entry point for the file that starts everything
     "entry" : {
         "main" : "./main.js",
-        //"bootstrap-loader"
         "vendor" : ["vue", "lodash"],
-        //"bootstrap" : ["bootstrap-loader"]
     },
-    // path to the file which will be loaded in browser
     "output" : {
         "path" : path.resolve(__dirname, "dist"),
         "filename" : "[name].bundle.js",
@@ -44,25 +37,35 @@ var x = {
                 }
             },
             {
-                "test": /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-                "use" : 'url-loader?limit=10000&mimetype=application/font-woff&name=Fonts/[hash:12].[ext]'
+                "test": /\.svg$/,
+                "use": 'url-loader?limit=65000&mimetype=image/svg+xml&name=fonts/[name].[ext]'
+            },
+            {
+                "test": /\.woff$/,
+                "use": 'url-loader?limit=65000&mimetype=application/font-woff&name=fonts/[name].[ext]'
+            },
+            {
+                "test": /\.woff2$/,
+                "use": 'url-loader?limit=65000&mimetype=application/font-woff2&name=fonts/[name].[ext]'
+            },
+            {
+                "test": /\.[ot]tf$/,
+                "use": 'url-loader?limit=65000&mimetype=application/octet-stream&name=fonts/[name].[ext]'
+            },
+            {
+                "test": /\.eot$/,
+                "use": 'url-loader?limit=65000&mimetype=application/vnd.ms-fontobject&name=fonts/[name].[ext]'
             },
             {
                 "test" : /.(png|jpe?g|gif)$/i,
                 "use": [
                     //'file-loader?name=[hash:12].[ext]&outputPath=Images/&publicPath=Images/',
-                    'file-loader?name=Images/[hash:12].[ext]',
+                    'file-loader?name=[hash:12].[ext]&outputPath=images/&publicPath=../',
                     'image-webpack-loader'
                 ]
-            },
-            {
-                "test" : /.(eot|svg|ttf)$/,
-                "use": 'file-loader?name=Fonts/[hash:12].[ext]'
             }
-
         ],
     },
-
     "resolve" : {
         "modules" : [
             path.resolve("/.src"),
@@ -85,42 +88,11 @@ var x = {
              jQuery: "jquery",
              "window.jQuery": "jquery",
              _ : "lodash",
-             "Vue" : "vue"
+             //"Vue" : "vue"
 
-        }),
-        new HtmlWebpackPlugin({
-            "template" : path.join(__dirname, "index.ejs"),
-            "filename" : path.join(__dirname, "index.html"),
-            "inject" : false,
-            "chunks": ["main", "vendor", "bootstrap"],
-            "heads": ["vendor", "bootstrap"],
-            "bodys" : ["main"],
-            "styles" : [path.join("dist", "bundle.css")],
-            "hash" : true,
-            // "minify" : {
-            //     collapseWhitespace : true,
-            //     removeComments : true
-            // }
-            // excludeChunks
-        }),
-        // devserver html file
-        new HtmlWebpackPlugin({
-            "template" : path.join(__dirname, "index.ejs"),
-            "filename" : path.join(__dirname, "dist", "index.html"),
-            "chunks": ["main", "vendor", "bootstrap"],
-            "heads": ["vendor", "bootstrap"],
-            "bodys" : ["main"],
-            "styles" : [path.join("dist", "bundle.css")],
-            "hash" : true,
-            // "minify" : {
-            //     collapseWhitespace : true,
-            //     removeComments : true
-            // }
-            // excludeChunks
         })
     ]
 };
 
-//console.log(htmlWebpackPlugin.files);
 
 module.exports = x;

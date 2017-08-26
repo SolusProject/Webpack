@@ -38,7 +38,7 @@ if (bootstraprcCustomLocation) {
     `&configFilePath=${__dirname}/${bootstraprcCustomLocation}` +
     '!bootstrap-loader/no-op.js';
 } else {
-  bootstrapProdEntryPoint = 'bootstrap-loader/extractStyles';
+  bootstrapProdEntryPoint = 'bootstrap-loader?extractStyles';
 }
 
 module.exports = {
