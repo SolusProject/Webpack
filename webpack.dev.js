@@ -7,6 +7,7 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const bootstrapEntryPoints = require('./webpack.bootstrap.config.js');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
+
 module.exports = Merge(CommonConfig, {
     "devtool" : "#eval",
     "entry" : {
@@ -16,12 +17,23 @@ module.exports = Merge(CommonConfig, {
         "rules" : [
             {
                 "test" : /\.(css|scss)$/,
-                "exclude" : /node_modules/,
+                //"exclude" : /node_modules/,
                 "use" : ExtractTextPlugin.extract({
                     "fallback" : "style-loader",
-                    "use" : ["css-loader", "sass-loader"],
+                    "use" : ["css-loader", "sass-loader", "less-loader"],
                     //"publicPath" : path.join(__dirname, "dist")
                 })
+            },
+            {
+                "test" : /.(png|jpe?g|gif)$/i,
+                "use": {
+                    "loader" : 'file-loader',
+                    "options" : {
+                        "name" : "[hash:12].[ext]",
+                        "outputPath" : "images/",
+                        "publicPath" : "../../../dist/"
+                    }
+                }
             }
         ]
     },
@@ -41,11 +53,10 @@ module.exports = Merge(CommonConfig, {
             "bodys" : ["main"],
             "styles" : [path.join("dist", "css", "main.css")],
             "hash" : true,
-            // "minify" : {
-            //     collapseWhitespace : true,
-            //     removeComments : true
-            // }
-            // excludeChunks
+            "minify" : {
+                collapseWhitespace : true,
+                removeComments : true
+            }
         }),
     ]
 });

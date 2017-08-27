@@ -12,15 +12,42 @@
         <!-- <link href="dist/css/bundle.css" rel="stylesheet"> -->
 
         <!-- <link rel="stylesheet" href="[prepend_your_public_path/]{%=o.webpack.assetsByChunkName.client[1]%}"> -->
+
     </head>
 
     <body>
+        <!-- <img src=<%= require("./src/Images/dragon.png") %> /> -->
+        <div class="xxx"></div>
+        <div id="app" class="container" v-cloak>
+            <h1>Chariot Shopping:</h1>
+            <div class="form-group">
+                <ul class="list-group">
+                    <chariot v-for="(chariot, key) in chariots"
+                            :key='key'
+                            :chariot="chariot"
+                            :selected-chariot="selected_chariot"
+                            @update="() => selected_chariot = chariot"
+                    >
 
-        <div class="xxx">
-            More content
-        </div>
+                    </chariot>
+                </ul>
+            </div>
 
-        <div id="app" class="container">
+            <hr>
+            <div class="text-center">
+                <p style="font-size: 140px;">
+                    {{ votes }}
+                </p>
+                <button type="button"
+                        name="button"
+                        class="text-center btn btn-primary"
+                        @click="reset">Reset</button>
+            </div>
+
+            <food @voted="votes++" name="My Little Fish"></food>
+            <food @voted="votes++" name="Bacon"></food>
+            <food @voted="votes++" name="Candy"></food>
+
             <br>
             <hr>
             <h2>Lets visit some planet</h2>
@@ -31,10 +58,12 @@
             </ul>
 
             <hr>
+            <h2 v-show="favorite">{{favorite.plot}}</h2>
             <ul class="list-group">
                 <story :story="story"
                        :key="key"
                        :favorite="favorite"
+                       @update="() => favorite = story"
                        v-for="(story, key) in stories_object"></story>
             </ul>
 

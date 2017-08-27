@@ -2,16 +2,23 @@
     <li class="list-group-item">Planet: {{planet.name}}. Visited: {{planet.visits}}
 
 
-    <span
-          class="glyphicon glyphicon-star pull-right"
+    <span v-show="planet.visits > 0" class="fa fa-rocket fa-2x pull-right"
           aria-hidden="true">
     </span>
+
+    <button v-show="planet.visits < 3"
+            type="button"
+            class="btn btn-primary"
+            @click="visit">
+        Visit
+    </button>
 
     </li>
 </template>
 
 <script>
-import bootstrap from "bootstrap";
+
+require('font-awesome');
 
 export default {
     props : [
@@ -21,7 +28,9 @@ export default {
         return {}
     },
     methods : {
-
+        visit() {
+            this.planet.visits++;
+        }
     },
     computed : {
 

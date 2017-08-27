@@ -15,9 +15,19 @@ module.exports = Merge(CommonConfig, {
         "rules" : [
             {
                 "test" : /\.(css|scss)$/,
-                "exclude" : /node_modules/,
-                "use" : ["style-loader", "css-loader", "sass-loader"]
-            }
+                "use" : ["style-loader", "css-loader", "sass-loader", "less-loader"]
+            },
+            {
+                "test" : /.(png|jpe?g|gif)$/i,
+                "use": {
+                    "loader" : 'file-loader',
+                    "options" : {
+                        "name" : "[hash:12].[ext]",
+                        "outputPath" : "images/",
+                        //"publicPath" : "../../../dist/"
+                    }
+                }
+            },
         ]
     },
     "devServer" : {
@@ -42,10 +52,10 @@ module.exports = Merge(CommonConfig, {
             "inject" : false,
             //"styles" : [path.join("css", "bundle.css")],
             "hash" : true,
-            // "minify" : {
-            //     collapseWhitespace : true,
-            //     removeComments : true
-            // }
+            "minify" : {
+                collapseWhitespace : true,
+                removeComments : true
+            }
             // excludeChunks
         })
     ]

@@ -1,12 +1,12 @@
 body {
-    background: chartreuse;
+    background: white;
     h1   {color: blue;}
     p    {color: red;}
     .xxx {
-        height: 300px;
-        width: 350px;
-        //background: yellow;
-        background : url('../Images/dragon.png') center center no-repeat;
-        background-size: 300px 300px;
+        height: 130px;
+        width: 220px;
+        //images is relative to the css file
+        background : url('../Images/Alveo_170x90.png') center center no-repeat;
+        background-size: 170px 90px;
     }
 }

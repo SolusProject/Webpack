@@ -14,8 +14,6 @@
               Favorite
       </button>
 
-      <span>Hello</span>
-
       <span v-show="isFavorite"
             class="glyphicon glyphicon-star pull-right"
             aria-hidden="true">
@@ -40,12 +38,13 @@ const props = [
               this.story.upvote++;
           },
           setFavorite() {
-              this.favorite = this.story;
+              //this.favorite = this.story;
+              this.$emit("update", this.story);
           }
       },
       computed : {
           isFavorite() {
-              return this.story == this.favourite? true : false;
+              return (this.story == this.favorite)? true : false;
           }
       }
   }

@@ -2,14 +2,25 @@ import Vue from 'vue';
 import style from './CSS/main.scss';
 import story from "./template/story.vue";
 import planet from "./template/planet.vue";
-
-
+import food from "./template/food.vue";
+import chariot from "./template/chariot.vue";
 
 Vue.filter("story_filter", function() {
     return story.writer +" said: \""+story.plot+"\"";
 });
 
+export var bus = new Vue();
+
 var data = {
+    selected_chariot : "",
+    chariots : [
+        {name : "Olympus", horses : 4},
+        {name : "Sagitta", horses : 3},
+        {name : "Icarus", horses : 2},
+        {name : "Abraxas", horses : 1},
+    ],
+    favorite : "",
+    votes : 0,
     name : "Jackson",
     gender : "male",
     stories: [
@@ -39,7 +50,6 @@ var data = {
             upvote : 21
         },
     ],
-    favorite : {},
     person_object : {
         name : "Sasha",
         weight : "170",
@@ -63,7 +73,7 @@ var data = {
     query : "",
     sortBy : "desc",
     planets : [
-        {"name" : "Venus", "visits" : 2},
+        {"name" : "Venus", "visits" : 0},
         {"name" : "Mars", "visits" : 0},
         {"name" : "Jupiter", "visits" : 0},
         {"name" : "Moon", "visits" : 0}
@@ -100,6 +110,10 @@ new Vue({
         },
         changeOrder() {
             data.sortBy = (data.sortBy != "desc")? "desc" : "asc";
+        },
+        reset() {
+            this.votes = 0;
+            bus.$emit('reset');
         }
     },
     computed : {
@@ -123,6 +137,8 @@ new Vue({
     components : {
         story,
         planet,
+        food,
+        chariot,
     }
 
 });

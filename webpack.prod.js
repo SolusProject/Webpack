@@ -16,12 +16,22 @@ module.exports = Merge(CommonConfig, {
         "rules" : [
             {
                 "test" : /\.(css|scss)$/,
-                "exclude" : /node_modules/,
                 "use" : ExtractTextPlugin.extract({
                     "fallback" : "style-loader",
-                    "use" : ["css-loader", "sass-loader"],
+                    "use" : ["css-loader", "sass-loader", "less-loader"],
                     //"publicPath" : path.join(__dirname, "dist")
                 })
+            },
+            {
+                "test" : /.(png|jpe?g|gif)$/i,
+                "use": {
+                    "loader" : 'file-loader',
+                    "options" : {
+                        "name" : "[hash:12].[ext]",
+                        "outputPath" : "images/",
+                        "publicPath" : "../../../dist/"
+                    }
+                }
             }
         ]
     },
@@ -41,7 +51,7 @@ module.exports = Merge(CommonConfig, {
              "comments": false
          }),
          new ExtractTextPlugin({
-             "filename" : path.join("bundle.css"),
+             "filename" : path.join("css", "[name].css"),
              "disable" : false,
              "allChunks" : true
          }),
@@ -54,10 +64,10 @@ module.exports = Merge(CommonConfig, {
              "bodys" : ["main"],
              "styles" : [path.join("dist", "css", "main.css")],
              "hash" : true,
-             // "minify" : {
-             //     collapseWhitespace : true,
-             //     removeComments : true
-             // }
+             "minify" : {
+                 collapseWhitespace : true,
+                 removeComments : true
+             }
              // excludeChunks
          }),
     ]
