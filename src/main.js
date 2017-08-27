@@ -5,7 +5,9 @@ import planet from "./template/planet.vue";
 import food from "./template/food.vue";
 import chariot from "./template/chariot.vue";
 
-Vue.filter("story_filter", function() {
+Vue.filter("story_filter", function(story) {
+
+
     return story.writer +" said: \""+story.plot+"\"";
 });
 
