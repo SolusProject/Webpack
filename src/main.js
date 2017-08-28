@@ -4,16 +4,19 @@ import story from "./template/story.vue";
 import planet from "./template/planet.vue";
 import food from "./template/food.vue";
 import chariot from "./template/chariot.vue";
+import {apiServer} from "./config/apiConfig.js"
+import axios from "axios";
+import tableRow from "./template/table-row.vue";
 
 Vue.filter("story_filter", function(story) {
-
-
     return story.writer +" said: \""+story.plot+"\"";
 });
 
 export var bus = new Vue();
 
 var data = {
+    selectedColor : "#8000ff",
+    color : 1,
     selected_chariot : "",
     chariots : [
         {name : "Olympus", horses : 4},
@@ -79,7 +82,9 @@ var data = {
         {"name" : "Mars", "visits" : 0},
         {"name" : "Jupiter", "visits" : 0},
         {"name" : "Moon", "visits" : 0}
-    ]
+    ],
+    buttonColor : "lime",
+    something : {},
 };
 
 var math = {
@@ -116,6 +121,40 @@ new Vue({
         reset() {
             this.votes = 0;
             bus.$emit('reset');
+        },
+        flipColor() {
+            this.color = ++this.color%4;
+        },
+        upvoteApiStory(story) {
+            story.upvotes++;
+            axios.patch(apiServer+"stories/"+story.id, story).then(response => {
+                console.log(response);
+                //throw an allert or something if failed
+            });
+        },
+        deleteApiStory(story) {
+            let index = this.something.indexOf(story);
+            this.something.splice(index,1);
+            axios.delete(apiServer+"stories/"+story.id).then(response => {
+                console.log(response.status);
+            })
+        },
+        updateApiStory(story) {
+            axios.put(apiServer+"stories/"+story.id, story).then(response => {
+                console.log(response.status);
+            })
+        },
+        addNewStory(story) {
+            // if id = undefined edit == true
+            this.something.unshift({plot : null, writer : null, upvotes : 0});
+        },
+        createApiStory(story) {
+            axios.post(apiServer+"stories", story).then(response => {
+                // use Vue.set if you want to modify object in the runtime
+                Vue.set(this.something,
+                        this.something.indexOf(story),
+                        response.data);
+            });
         }
     },
     computed : {
@@ -141,6 +180,14 @@ new Vue({
         planet,
         food,
         chariot,
-    }
+        tableRow,
+    },
+    mounted() {
+        axios.get(apiServer+"stories").then(response => {
+            if(response.status != 200) return;
+            this.something = response.data;
+        })
+    },
+    created() {}
 
 });

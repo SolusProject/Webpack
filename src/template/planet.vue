@@ -1,5 +1,5 @@
 <template lang="html">
-    <li class="list-group-item">Planet: {{planet.name}}. Visited: {{planet.visits}}
+    <li class="list-group-item" :class="{completed : planet.visits > 0}" >Planet: {{planet.name}}. Visited: {{planet.visits}}
 
 
     <span v-show="planet.visits > 0" class="fa fa-rocket fa-2x pull-right"
@@ -18,6 +18,7 @@
 
 <script>
 
+require('../CSS/planet.scss');
 require('font-awesome');
 
 export default {

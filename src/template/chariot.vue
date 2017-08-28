@@ -1,6 +1,6 @@
 <template lang="html">
     <li class="list-group-item">
-        <h4>"{{chariot.name}}" chariot has {{chariot.horses}} horse(s)!</h4>
+        <h4 class="completed">"{{chariot.name}}" chariot has {{chariot.horses}} horse(s)!</h4>
         <button type="button"
                 name="button"
                 class="btn btn-primary"

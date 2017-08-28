@@ -9,4 +9,23 @@ body {
         background : url('../Images/Alveo_170x90.png') center center no-repeat;
         background-size: 170px 90px;
     }
+    .box {
+        float: left;
+        width: 100px;
+        height: 100px;
+        margin: 40px;
+        border: 1px solid black;
+    }
+    .red {
+        background: red;
+    }
+    .pink {
+        background: HOTPINK;
+    }
+    .blue {
+        background: BLUEVIOLET;
+    }
+    .lime {
+        background: lime;
+    }
 }
